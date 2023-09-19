@@ -1,1 +1,39 @@
-<p>registro works!</p>
+<div class="container" *ngIf="usuario">
+    <div class="row  w-100 vh-100 justify-content-center align-items-center">
+        <div class="auth-box">
+            <!-- Registro -->
+            <div *ngIf="!estaConfirmado">
+                <div class="header">
+                    <h2>Registro</h2>
+                    <h4>Ingrese su información</h4>
+                </div>
+                <div class="form">
+                    <input type="text" name="nombre" [(ngModel)]="usuario.nombre" placeholder="Nombre">
+                    <input type="text" name="apellido" [(ngModel)]="usuario.apellido" placeholder="Apellido">
+                    <input type="email" name="email" [(ngModel)]="usuario.email" placeholder="Email" autocomplete="off">
+                    <input [type]="usuario.mostrarPassword ? 'text' : 'password'" placeholder="Contraseña" [(ngModel)]="usuario.password">
+                    <div style="font-size: 12px; margin: 8px 0;">
+                        <input type="checkbox" [checked]="usuario.mostrarPassword" (change)="usuario.mostrarPassword = !usuario.mostrarPassword">
+                        Mostrar Contraseña
+                    </div>
+                    <p>¿Estás registrado? <a href="/iniciar-sesion">Iniciar Sesión</a></p>
+                    <button (click)="registroConCognito()">REGISTRAR</button>
+                </div>
+            </div>
+            <!-- Confirmar Registro -->
+            <div *ngIf="estaConfirmado">
+                <div class="header">
+                    <h2>Ingrese el código</h2>
+                    <h4 style="color: green;">El código de verificación se envió a {{usuario.email}}</h4>
+                </div>
+                <div class="form">
+                    <input type="text" name="codigoVerificacion" placeholder="Código de verificación" [(ngModel)]="usuario.codigo">
+                    <button (click)="confirmarRegistro()">CONFIRMAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<app-mensaje-modal *ngIf="mostrarAlerta" (cerrarModal)="mostrarAlerta=false" [mensaje]="mensajeAlerta"></app-mensaje-modal>

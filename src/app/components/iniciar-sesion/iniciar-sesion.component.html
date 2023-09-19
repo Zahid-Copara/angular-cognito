@@ -1,1 +1,45 @@
-<p>iniciar-sesion works!</p>
+<div class="container" *ngIf="usuario">
+    <div class="row w-100 vh-100 justify-content-center align-items-center">
+        <div class="auth-box">
+            <!-- Iniciar Sesion -->
+            <div *ngIf="!olvidoSuPassword">
+                <div class="header">
+                    <h2>Bienvenido de vuelta</h2>
+                    <h4>Inicie sesión con su email y su contraseña</h4>
+                </div>
+                <div class="form">
+                    <input type="email" name="email" placeholder="Email" [(ngModel)]="usuario.email" autocomplete="off">
+                    <input [type]="usuario.mostrarPassword ? 'text' : 'password'" name = "password" placeholder="Contraseña" [(ngModel)]="usuario.password">
+                    
+                    <div style="font-size: 12px; margin-top: 6px;">
+                        <input type="checkbox" [checked]="usuario.mostrarPassword" (change)="usuario.mostrarPassword = !usuario.mostrarPassword">
+                        Mostrar contraseña
+                    </div>
+
+                    <!-- <p class="olvido-password" (click)="clicOlvidoPassword()">Olvidó su contraseña?</p> -->
+                    <p>No está registrado? <a href="/registro">Registrese</a></p>
+                    <button (click)="iniciarSesionConCognito()">INICIAR SESIÓN</button>
+                </div>
+            </div>
+            <!-- Olvido password -->
+            <div *ngIf="olvidoSuPassword">
+                <div class="header">
+                    <h2>Recuperación de cuenta</h2>
+                    <h4>Código de verificación enviado a <strong>{{usuario.email}}</strong></h4>
+                </div>
+                <div class="form">
+                    <input type="text" placeholder="Código de verificación" name="codigoVerificacion" [(ngModel)]="usuario.codigo">
+                    <input [type]="usuario.mostrarPassword ? 'text' : 'password'" name = "password" placeholder="Ingrese nueva contraseña" [(ngModel)]="nuevaPassword">
+                    <div style="font-size: 12px; margin: 8px 0;">
+                        <input type="checkbox" [checked]="usuario.mostrarPassword" (change)="usuario.mostrarPassword = !usuario.mostrarPassword">
+                        Mostrar contraseña
+                    </div>
+                    <button (click)="nuevaPasswordSubmit()">INGRESAR NUEVA CONTRASEÑA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<app-mensaje-modal *ngIf="mostrarAlerta" (cerrarModal)="mostrarAlerta=false" [mensaje]="mensajeAlerta"></app-mensaje-modal>
